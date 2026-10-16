@@ -13,3 +13,11 @@ output "private_subnet_ids" {
 output "data_lake_bucket" {
   value = module.data_lake.bucket_name
 }
+
+output "lambda_role_arn" {
+  value = module.iam.lambda_role_arn
+}
+
+output "glue_role_arn" {
+  value = module.iam.glue_role_arn
+}
