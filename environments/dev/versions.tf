@@ -1,5 +1,12 @@
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
+  cloud {
+    organization = "sudha-adastra"
+
+    workspaces {
+      name = "aws-production-data-platform-dev"
+    }
+  }
 
   required_providers {
     aws = {
