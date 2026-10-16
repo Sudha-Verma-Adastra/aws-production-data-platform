@@ -21,3 +21,21 @@ module "iam" {
   environment          = var.environment
   data_lake_bucket_arn = module.data_lake.bucket_arn
 }
+
+data "archive_file" "lambda_ingestion" {
+  type        = "zip"
+  source_dir  = "${path.root}/../../applications/ingestion"
+  output_path = "${path.root}/lambda_ingestion.zip"
+}
+
+module "lambda" {
+  source = "../../modules/lambda"
+
+  project_name     = var.project_name
+  environment      = var.environment
+  lambda_role_arn  = module.iam.lambda_role_arn
+  data_lake_bucket = module.data_lake.bucket_name
+
+  filename         = data.archive_file.lambda_ingestion.output_path
+  source_code_hash = data.archive_file.lambda_ingestion.output_base64sha256
+}
