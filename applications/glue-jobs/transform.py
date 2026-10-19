@@ -58,7 +58,7 @@ if processed_df.limit(1).count() == 0:
 
 (
     processed_df.write
-    .mode("append")
+    .mode("overwrite")
     .format("parquet")
     .save(processed_path)
 )
