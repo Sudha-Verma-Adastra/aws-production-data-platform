@@ -88,3 +88,26 @@ resource "aws_iam_role_policy_attachment" "glue_data_lake" {
   role       = aws_iam_role.glue.name
   policy_arn = aws_iam_policy.data_lake_access.arn
 }
+
+
+data "aws_iam_policy_document" "lambda_metadata_access" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "dynamodb:PutItem"
+    ]
+
+    resources = [var.metadata_table_arn]
+  }
+}
+
+resource "aws_iam_policy" "lambda_metadata_access" {
+  name   = "${var.project_name}-${var.environment}-lambda-metadata-access"
+  policy = data.aws_iam_policy_document.lambda_metadata_access.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_metadata_access" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.lambda_metadata_access.arn
+}

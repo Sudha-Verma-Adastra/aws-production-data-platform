@@ -20,6 +20,7 @@ module "iam" {
   project_name         = var.project_name
   environment          = var.environment
   data_lake_bucket_arn = module.data_lake.bucket_arn
+  metadata_table_arn   = module.dynamodb.table_arn
 }
 
 data "archive_file" "lambda_ingestion" {
@@ -31,11 +32,19 @@ data "archive_file" "lambda_ingestion" {
 module "lambda" {
   source = "../../modules/lambda"
 
-  project_name     = var.project_name
-  environment      = var.environment
-  lambda_role_arn  = module.iam.lambda_role_arn
-  data_lake_bucket = module.data_lake.bucket_name
+  project_name        = var.project_name
+  environment         = var.environment
+  lambda_role_arn     = module.iam.lambda_role_arn
+  data_lake_bucket    = module.data_lake.bucket_name
+  metadata_table_name = module.dynamodb.table_name
 
   filename         = data.archive_file.lambda_ingestion.output_path
   source_code_hash = data.archive_file.lambda_ingestion.output_base64sha256
+}
+
+module "dynamodb" {
+  source = "../../modules/dynamodb"
+
+  project_name = var.project_name
+  environment  = var.environment
 }

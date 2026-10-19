@@ -22,3 +22,7 @@ variable "filename" {
 variable "source_code_hash" {
   type = string
 }
+
+variable "metadata_table_name" {
+  type = string
+}

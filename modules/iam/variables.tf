@@ -9,3 +9,7 @@ variable "environment" {
 variable "data_lake_bucket_arn" {
   type = string
 }
+
+variable "metadata_table_arn" {
+  type = string
+}

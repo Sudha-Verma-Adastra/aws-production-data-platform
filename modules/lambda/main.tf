@@ -14,6 +14,7 @@ resource "aws_lambda_function" "ingestion" {
   environment {
     variables = {
       DATA_LAKE_BUCKET = var.data_lake_bucket
+      METADATA_TABLE   = var.metadata_table_name
     }
   }
 
