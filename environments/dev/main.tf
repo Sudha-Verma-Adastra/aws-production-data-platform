@@ -48,3 +48,15 @@ module "dynamodb" {
   project_name = var.project_name
   environment  = var.environment
 }
+
+
+module "glue" {
+  source = "../../modules/glue"
+
+  project_name     = var.project_name
+  environment      = var.environment
+  data_lake_bucket = module.data_lake.bucket_name
+  glue_role_arn    = module.iam.glue_role_arn
+
+  glue_script_path = "${path.root}/../../applications/glue-jobs/transform.py"
+}

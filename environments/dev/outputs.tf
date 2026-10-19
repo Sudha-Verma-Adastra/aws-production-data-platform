@@ -29,3 +29,19 @@ output "lambda_function_name" {
 output "lambda_function_arn" {
   value = module.lambda.function_arn
 }
+
+output "glue_job_name" {
+  value = module.glue.job_name
+}
+
+output "glue_crawler_name" {
+  value = module.glue.crawler_name
+}
+
+output "glue_catalog_database" {
+  value = module.glue.catalog_database
+}
+
+output "athena_workgroup" {
+  value = module.glue.athena_workgroup
+}

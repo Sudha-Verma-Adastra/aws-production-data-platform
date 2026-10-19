@@ -1,0 +1,20 @@
+
+variable "project_name" {
+  type = string
+}
+
+variable "environment" {
+  type = string
+}
+
+variable "data_lake_bucket" {
+  type = string
+}
+
+variable "glue_role_arn" {
+  type = string
+}
+
+variable "glue_script_path" {
+  type = string
+}
