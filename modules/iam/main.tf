@@ -111,3 +111,26 @@ resource "aws_iam_role_policy_attachment" "lambda_metadata_access" {
   role       = aws_iam_role.lambda.name
   policy_arn = aws_iam_policy.lambda_metadata_access.arn
 }
+
+
+data "aws_iam_policy_document" "glue_processed_delete" {
+  statement {
+    effect  = "Allow"
+    actions = ["s3:DeleteObject"]
+
+    resources = [
+      "${var.data_lake_bucket_arn}/processed/*"
+    ]
+  }
+}
+
+resource "aws_iam_policy" "glue_processed_delete" {
+  name        = "${var.project_name}-${var.environment}-glue-processed-delete"
+  description = "Allow Glue to overwrite objects in the processed data prefix"
+  policy      = data.aws_iam_policy_document.glue_processed_delete.json
+}
+
+resource "aws_iam_role_policy_attachment" "glue_processed_delete" {
+  role       = aws_iam_role.glue.name
+  policy_arn = aws_iam_policy.glue_processed_delete.arn
+}
