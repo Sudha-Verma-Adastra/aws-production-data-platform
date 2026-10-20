@@ -1,8 +1,7 @@
 # Project Troubleshooting Log
 
 **Project:** AWS Production Data Engineering Platform\
-**Repository:**
-https://github.com/Sudha-Verma-Adastra/aws-production-data-platform\
+
 **Last updated:** 20 October 2026
 
 This log records errors, suspected causes, code/configuration changes,
