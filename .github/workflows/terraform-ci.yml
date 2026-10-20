@@ -98,7 +98,7 @@ jobs:
   hcp-plan:
     name: HCP Terraform Plan
     runs-on: ubuntu-latest
-    needs: [gitleaks, terraform, checkov, python]
+    needs: [gitleaks, terraform, python]
     if: github.event_name != 'pull_request'
     steps:
       - name: Trigger and monitor HCP Terraform run
