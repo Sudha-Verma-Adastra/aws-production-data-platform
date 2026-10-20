@@ -40,3 +40,27 @@ jobs:
 
       - name: Validate configuration
         run: terraform -chdir=environments/dev validate
+  
+  lambda-unit-tests:
+    name: Lambda Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install boto3
+
+      - name: Run Lambda unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check Lambda syntax
+        run: python -m py_compile applications/ingestion/lambda_function.py
