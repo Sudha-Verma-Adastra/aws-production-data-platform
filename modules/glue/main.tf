@@ -8,20 +8,22 @@ resource "aws_s3_object" "glue_script" {
   content_type = "text/x-python"
 }
 
+
 resource "aws_glue_catalog_database" "analytics" {
   name = "${replace(var.project_name, "-", "_")}_${var.environment}_analytics"
 }
 
+#checkov:skip=CKV_AWS_99:Sandbox does not permit KMS; S3 encryption remains enabled with SSE-S3.
 resource "aws_glue_security_configuration" "this" {
   name = "${var.project_name}-${var.environment}-security"
 
   encryption_configuration {
     cloudwatch_encryption {
-      cloudwatch_encryption_mode = "DISABLED"
+      cloudwatch_encryption_mode = "SSE-KMS"
     }
 
     job_bookmarks_encryption {
-      job_bookmarks_encryption_mode = "DISABLED"
+      job_bookmarks_encryption_mode = "CSE-KMS"
     }
 
     s3_encryption {

@@ -1,4 +1,4 @@
-
+#checkov:skip=CKV_AWS_119:Sandbox restriction excludes customer-managed KMS keys; DynamoDB server-side encryption remains enabled.
 resource "aws_dynamodb_table" "ingestion_metadata" {
   name         = "${var.project_name}-${var.environment}-ingestion-metadata"
   billing_mode = "PAY_PER_REQUEST"

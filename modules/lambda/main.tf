@@ -3,13 +3,18 @@ resource "aws_lambda_function" "ingestion" {
   function_name = "${var.project_name}-${var.environment}-ingestion"
   description   = "Validates JSON records and writes them to the S3 data lake"
 
-  role             = var.lambda_role_arn
-  runtime          = "python3.12"
-  handler          = "lambda_function.lambda_handler"
-  filename         = var.filename
-  source_code_hash = var.source_code_hash
-  timeout          = 30
-  memory_size      = 128
+  role                           = var.lambda_role_arn
+  runtime                        = "python3.12"
+  handler                        = "lambda_function.lambda_handler"
+  filename                       = var.filename
+  source_code_hash               = var.source_code_hash
+  timeout                        = 30
+  memory_size                    = 128
+  reserved_concurrent_executions = 5
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment {
     variables = {
