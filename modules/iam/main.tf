@@ -119,14 +119,15 @@ data "aws_iam_policy_document" "glue_processed_delete" {
     actions = ["s3:DeleteObject"]
 
     resources = [
-      "${var.data_lake_bucket_arn}/processed/*"
+      "${var.data_lake_bucket_arn}/processed/*",
+      "${var.data_lake_bucket_arn}/processed_$folder$"
     ]
   }
 }
 
 resource "aws_iam_policy" "glue_processed_delete" {
   name        = "${var.project_name}-${var.environment}-glue-processed-delete"
-  description = "Allow Glue to overwrite objects in the processed data prefix"
+  description = "Allow Glue to replace processed data objects and its directory marker"
   policy      = data.aws_iam_policy_document.glue_processed_delete.json
 }
 
