@@ -101,6 +101,16 @@ jobs:
     needs: [gitleaks, terraform, python]
     if: github.event_name != 'pull_request'
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify HCP plan script exists
+        run: |
+          pwd
+          git rev-parse --short HEAD
+          ls -la .github/scripts/
+          test -f .github/scripts/trigger_hcp_terraform_plan.py
+
       - name: Trigger and monitor HCP Terraform run
         env:
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
