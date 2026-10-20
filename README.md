@@ -5,7 +5,7 @@ serverless ingestion, S3 data-lake storage, DynamoDB ingestion metadata,
 Glue ETL/cataloging, Athena analytics, GitHub Actions CI, and HCP
 Terraform planning.
 
-> **Status --- 20 October 2026:** The latest HCP Terraform plan
+> **Status:** The latest HCP Terraform plan
 > succeeded and was reported as **36 to add, 0 to change, 0 to
 > destroy**. The plan's resource list still needs review and it has not
 > yet been confirmed/applied. Deployment and post-rebuild verification
