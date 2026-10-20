@@ -8,7 +8,6 @@ import time
 import urllib.error
 import urllib.request
 
-
 TERMINAL_STATES = {
     "planned",
     "planned_and_finished",

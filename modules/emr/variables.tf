@@ -9,18 +9,8 @@ variable "environment" {
   type        = string
 }
 
-variable "aws_region" {
-  description = "AWS region"
-  type        = string
-}
-
 variable "subnet_id" {
   description = "Subnet ID for the EMR cluster"
-  type        = string
-}
-
-variable "data_lake_bucket_name" {
-  description = "S3 data lake bucket name"
   type        = string
 }
 

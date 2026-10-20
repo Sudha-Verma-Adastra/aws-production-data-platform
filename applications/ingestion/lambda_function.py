@@ -1,7 +1,7 @@
 import json
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import boto3
 
@@ -15,7 +15,7 @@ table = dynamodb.Table(METADATA_TABLE)
 
 def lambda_handler(event, context):
     if not isinstance(event, dict):
-        raise ValueError("Event must be a JSON object")
+        raise TypeError("Event must be a JSON object")
 
     records = event.get("records", [event])
 
@@ -25,7 +25,7 @@ def lambda_handler(event, context):
     if not all(isinstance(record, dict) for record in records):
         raise ValueError("Every record must be a JSON object")
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     batch_id = str(uuid.uuid4())
 
     object_key = (

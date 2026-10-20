@@ -1,5 +1,4 @@
 
-import importlib
 import json
 import os
 import sys
@@ -88,9 +87,7 @@ class TestLambdaIngestion(unittest.TestCase):
         )
 
     def test_non_object_event_is_rejected(self):
-        with self.assertRaisesRegex(
-            ValueError, "Event must be a JSON object"
-        ):
+        with self.assertRaises(TypeError):
             lambda_function.lambda_handler(["invalid"], None)
 
         self.s3.put_object.assert_not_called()

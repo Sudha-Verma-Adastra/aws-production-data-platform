@@ -12,14 +12,33 @@ resource "aws_glue_catalog_database" "analytics" {
   name = "${replace(var.project_name, "-", "_")}_${var.environment}_analytics"
 }
 
+resource "aws_glue_security_configuration" "this" {
+  name = "${var.project_name}-${var.environment}-security"
+
+  encryption_configuration {
+    cloudwatch_encryption {
+      cloudwatch_encryption_mode = "DISABLED"
+    }
+
+    job_bookmarks_encryption {
+      job_bookmarks_encryption_mode = "DISABLED"
+    }
+
+    s3_encryption {
+      s3_encryption_mode = "SSE-S3"
+    }
+  }
+}
+
 resource "aws_glue_job" "transform" {
-  name              = "${var.project_name}-${var.environment}-transform"
-  role_arn          = var.glue_role_arn
-  glue_version      = "4.0"
-  worker_type       = "G.1X"
-  number_of_workers = 2
-  timeout           = 10
-  max_retries       = 0
+  name                   = "${var.project_name}-${var.environment}-transform"
+  role_arn               = var.glue_role_arn
+  glue_version           = "4.0"
+  worker_type            = "G.1X"
+  number_of_workers      = 2
+  timeout                = 10
+  max_retries            = 0
+  security_configuration = aws_glue_security_configuration.this.name
 
   command {
     name            = "glueetl"
@@ -46,9 +65,10 @@ resource "aws_glue_job" "transform" {
 }
 
 resource "aws_glue_crawler" "processed" {
-  name          = "${var.project_name}-${var.environment}-processed-crawler"
-  role          = var.glue_role_arn
-  database_name = aws_glue_catalog_database.analytics.name
+  name                   = "${var.project_name}-${var.environment}-processed-crawler"
+  role                   = var.glue_role_arn
+  database_name          = aws_glue_catalog_database.analytics.name
+  security_configuration = aws_glue_security_configuration.this.name
 
   s3_target {
     path = "s3://${var.data_lake_bucket}/processed/"
@@ -76,6 +96,10 @@ resource "aws_athena_workgroup" "analytics" {
 
     result_configuration {
       output_location = "s3://${var.data_lake_bucket}/athena-results/"
+
+      encryption_configuration {
+        encryption_option = "SSE_S3"
+      }
     }
   }
 

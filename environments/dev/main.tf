@@ -65,12 +65,10 @@ module "glue" {
 module "emr" {
   source = "../../modules/emr"
 
-  project_name          = var.project_name
-  environment           = var.environment
-  aws_region            = var.aws_region
-  subnet_id             = module.networking.private_subnet_ids[0]
-  data_lake_bucket_name = module.data_lake.bucket_name
-  data_lake_bucket_arn  = module.data_lake.bucket_arn
+  project_name         = var.project_name
+  environment          = var.environment
+  subnet_id            = module.networking.private_subnet_ids[0]
+  data_lake_bucket_arn = module.data_lake.bucket_arn
 
   # EMR stays disabled until we explicitly review its cost and plan.
   enabled = false
