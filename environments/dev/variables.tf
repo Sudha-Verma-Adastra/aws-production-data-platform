@@ -11,7 +11,7 @@ variable "environment" {
 
 variable "project_name" {
   type    = string
-  default = "aws-prod-data-platform"
+  default = "sandbox-sverma-dataplat"
 }
 
 variable "vpc_cidr" {

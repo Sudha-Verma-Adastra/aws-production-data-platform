@@ -60,3 +60,21 @@ module "glue" {
 
   glue_script_path = "${path.root}/../../applications/glue-jobs/transform.py"
 }
+
+
+module "emr" {
+  source = "../../modules/emr"
+
+  project_name          = var.project_name
+  environment           = var.environment
+  aws_region            = var.aws_region
+  subnet_id             = module.networking.private_subnet_ids[0]
+  data_lake_bucket_name = module.data_lake.bucket_name
+  data_lake_bucket_arn  = module.data_lake.bucket_arn
+
+  # EMR stays disabled until we explicitly review its cost and plan.
+  enabled = false
+
+  # Placeholder until we upload the Spark job to S3.
+  spark_script_s3_uri = "s3://${module.data_lake.bucket_name}/spark-jobs/transform.py"
+}
